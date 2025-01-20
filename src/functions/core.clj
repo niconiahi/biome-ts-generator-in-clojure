@@ -10,8 +10,8 @@
                      message)))
 (defn do-nothing [x] x)
 #_:clj-kondo/ignore
-(defn always-thing [& param] 100)
+(defn always-thing [& args] 100)
 #_:clj-kondo/ignore
-(defn make-thingy [x] (fn [& param] x))
+(defn make-thingy [x] (fn [& args] x))
 (defn triplicate [f] (f) (f) (f))
-
+(defn opposite [f] (fn [& args] (not (apply f args))))
