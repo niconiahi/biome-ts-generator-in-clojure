@@ -15,3 +15,5 @@
 (defn make-thingy [x] (fn [& args] x))
 (defn triplicate [f] (f) (f) (f))
 (defn opposite [f] (fn [& args] (not (apply f args))))
+(defn triplicate2 [f & args]
+  (triplicate #(apply f args)))
