@@ -13,4 +13,5 @@
 (defn always-thing [& param] 100)
 #_:clj-kondo/ignore
 (defn make-thingy [x] (fn [& param] x))
-(defn triplicate [f] (fn [] f) (fn [] f) (fn [] f))
+(defn triplicate [f] (f) (f) (f))
+

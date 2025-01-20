@@ -1,5 +1,5 @@
 (ns functions.test
-  (:require [functions.core :refer [greeting, do-nothing, always-thing, make-thingy]]))
+  (:require [functions.core :refer [greeting, do-nothing, always-thing, make-thingy, triplicate]]))
 
 (assert (= "Hello, World!" (greeting)))
 (assert (= "Hello, Clojure!" (greeting "Clojure")))
@@ -16,3 +16,6 @@
   (assert (= n (f)))
   (assert (= n (f 123)))
   (assert (= n (apply f 123 (range)))))
+
+(let [s (atom "")]
+  (assert (= "ABABAB" (triplicate #(swap! s str "AB")))))
