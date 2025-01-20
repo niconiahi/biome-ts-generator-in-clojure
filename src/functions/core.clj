@@ -21,3 +21,5 @@
   (triplicate #(apply f args)))
 (defn hypotenuse [x] (+ (pow (sin x) 2) (pow (cos x) 2)))
 (defn http-get [url] (-> (URL. url) (.openStream) (slurp)))
+(defn one-less-arg [f x] #(apply f x %&))
+(defn two-fns [f g] #(-> % f g))

@@ -1,5 +1,5 @@
 (ns functions.test
-  (:require [functions.core :refer [greeting, do-nothing, always-thing, make-thingy, triplicate, opposite, triplicate2, hypotenuse, http-get]]
+  (:require [functions.core :refer [greeting, do-nothing, always-thing, make-thingy, triplicate, opposite, triplicate2, hypotenuse, http-get, one-less-arg, two-fns]]
             [clojure.math :refer [cos PI]]))
 
 (assert (= "Hello, World!" (greeting)))
@@ -34,3 +34,5 @@
 (assert (= (hypotenuse 2) 1.0))
 
 (assert (.contains (http-get "https://www.w3.org") "html"))
+
+(assert (= 2 ((two-fns inc dec) 2)))
