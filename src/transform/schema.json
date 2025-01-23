@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configuration",
+  "description": "The configuration that is contained inside the file `biome.json`",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "description": "A field for the [JSON schema](https://json-schema.org/) specification",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "assists": {
+      "description": "Specific configuration for assists",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AssistsConfiguration"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "StringSet": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "AssistsConfiguration": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "description": "Whether Biome should enable assists via LSP.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "ignore": {
+          "description": "A list of Unix shell style patterns. The formatter will ignore files/folders that will match these patterns.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringSet"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "include": {
+          "description": "A list of Unix shell style patterns. The formatter will include files/folders that will match these patterns.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringSet"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
