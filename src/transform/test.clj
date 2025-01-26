@@ -12,25 +12,18 @@
 (assert (= "string[]" (make-type (get-definition "StringSet" (parse-json)))))
 ; (pp/pprint (make-type (get-definition "StringSet" (parse-json))))
 
-; (pp/pprint (make-type (get-definition "AssistsConfiguration" (parse-json))))
-
 ; (pp/pprint (parse-object {:properties {:type "string"}}))
-(pp/pprint (parse-object {:AssistConfiguration
-                          {:type "object",
-                           :properties
-                           {:enabled
-                            {:description "Whether Biome should enable assists via LSP.",
-                             :type "boolean"}},
-                           :additionalProperties false}}))
-(assert (= "type AssistConfiration = {
-  enabled: boolean
-}" (parse-object {:AssistConfiguration
-                  {:type "object",
-                   :properties
-                   {:enabled
-                    {:description "Whether Biome should enable assists via LSP.",
-                     :type "boolean"}},
-                   :additionalProperties false}})))
+(println (parse-object (get-definition "AssistsConfiguration" (parse-json)) "AssistsConfiguration"))
+
+; (assert (= "type AssistConfiration = {
+;   enabled: boolean
+; }" (parse-object {:AssistConfiguration
+;                   {:type "object",
+;                    :properties
+;                    {:enabled
+;                     {:description "Whether Biome should enable assists via LSP.",
+;                      :type "boolean"}},
+;                    :additionalProperties false}})))
 
 ; (pp/pprint (parse-object {:type "object",
 ;                           :properties

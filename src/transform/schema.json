@@ -42,6 +42,10 @@
             "null"
           ]
         },
+        "prioritize": {
+          "description": "Whether Biome should enable assists via LSP.",
+          "type": "boolean"
+        },
         "ignore": {
           "description": "A list of Unix shell style patterns. The formatter will ignore files/folders that will match these patterns.",
           "anyOf": [
