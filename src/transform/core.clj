@@ -5,7 +5,7 @@
 
 (defn parse-json
   []
-  (-> "src/transform/schema-full.json"
+  (-> "src/transform/schema.json"
       slurp
       (read-str :key-fn keyword)
       identity))
@@ -20,8 +20,6 @@
 
 (defn parse-object
   [definition n]
-  (prn "definition is" n)
-  (prn "name is" n)
   (let [properties (get definition :properties)]
     (join
      "\n"
@@ -31,7 +29,10 @@
        (fn [accumulator [n property]]
          (let [type (get property :type)
                any-of (get property :anyOf)]
+              ; all-of (get property :allOf)]
               ; (prn "current accumulator is" accumulator)
+              ; (prn "property name is" n)
+              ; (prn "all-of is" all-of)
               ; (prn "property type is" type)
               ; (prn "property anyof is" any-of)
               ; (prn "is string" (string? type))
@@ -43,17 +44,20 @@
                                   (str "  " (name n) ": " (join " | " type)))
              (vector? any-of)
              (conj accumulator
-                   (str "  " (name n)
-                        ": " (join
-                              " | "
-                              (map
-                               (fn [any-of-property]
-                                 (let [type (get any-of-property :type)
-                                       ref (get any-of-property :$ref)]
-                                   (cond (string? type) type
-                                         (string? ref)
-                                         (get-definition-name ref))))
-                               any-of)))))))
+                   (str "  "
+                        (name n)
+                        ": "
+                        (join " | "
+                              (map (fn [any-of-property]
+                                     (let [type (get any-of-property :type)
+                                           ref (get any-of-property :$ref)]
+                                            ; (prn "type is " type)
+                                            ; (prn "ref is " ref)
+                                       (cond (string? type) type
+                                             (string? ref)
+                                             (get-definition-name ref))))
+                                   any-of))
+                        ",")))))
        []
        properties)
       ["}"]))))
@@ -64,10 +68,20 @@
         quoted (map #(str "\"" % "\"") enum)]
     (join (concat "type " name " = " (join " | " quoted)))))
 
+(defn parse-one-of
+  [definition name]
+  (let [one-of (get definition :oneOf)]
+    (->> (map #(first (get % :enum)) one-of)
+         (map #(str "\"" % "\""))
+         (join " | ")
+         (str "type " name " = "))))
+
 (defn make-type
   [definition name]
-  (let [type (get definition :type)]
+  (let [type (get definition :type)
+        one-of (get definition :oneOf)]
     (cond (= type "array") (parse-array definition)
           (= type "object") (parse-object definition name)
           (= type "string") (parse-string definition name)
-          (= type "integer") "number")))
+          (= type "integer") "number"
+          (some? one-of) (parse-one-of definition name))))
